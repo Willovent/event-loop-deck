@@ -1,0 +1,154 @@
+import {
+  CodeSurfer,
+  CodeSurferColumns,
+  Step,
+} from "code-surfer";
+import { github, vsDark } from "@code-surfer/themes";
+export const theme = vsDark;
+
+# Hello 👋
+
+Event Loop
+
+---
+
+<CodeSurferColumns themes={[vsDark, github]}>
+
+<Step>
+
+```js
+console.log(1);
+setTimeout(() => console.log(2));
+Promise.resolve().then(() =>
+  setTimeout(() => console.log(3))
+);
+Promise.resolve().then(() => console.log(4));
+console.log(5);
+```
+
+```js
+
+```
+
+</Step>
+
+<Step>
+
+```diff 1 subtitle="log 1"
+
+```
+
+```js
+1
+```
+
+</Step>
+
+<Step>
+
+```diff 2 subtitle="Ajoute log(2) à la macrotask queue"
+
+```
+
+```js
+1
+```
+
+</Step>
+
+<Step>
+
+```diff 3:5 subtitle="Ajoute setTimeout(log(3)) à la microtask queue"
+
+```
+
+```js
+1
+```
+
+</Step>
+
+<Step>
+
+```diff 6 subtitle="Ajoute log(4) à la microtask queue"
+
+```
+
+```js
+1
+```
+
+</Step>
+
+<Step>
+
+```diff 7 subtitle="log 5"
+
+```
+
+```js
+1
+5
+```
+
+</Step>
+
+<Step>
+
+```diff 4 subtitle="Ajoute log(3) à la macrotask queue"
+
+```
+
+```js
+1
+5
+```
+
+</Step>
+
+<Step>
+
+```diff 6[29:60] subtitle="dépille la macrotask queue: log 4"
+
+```
+
+```js
+1
+5
+4
+```
+
+</Step>
+
+<Step>
+
+```diff 2[17:31] subtitle="dépille la macrotask queue: log 2"
+
+```
+
+```js
+1
+5
+4
+2
+```
+
+</Step>
+
+<Step>
+
+```diff 4[20:34] subtitle="dépille la micro task: log 3"
+
+```
+
+```js
+1
+5
+4
+2
+3
+```
+
+</Step>
+
+</CodeSurferColumns>
